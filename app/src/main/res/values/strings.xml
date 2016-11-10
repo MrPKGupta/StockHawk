@@ -24,6 +24,7 @@
     <string name="string_periodic"  translatable="false">periodic</string>
     <string name="string_init"  translatable="false">init</string>
     <string name="error_no_symbol"  translatable="false">Error! symbol Not found</string>
+    <string name="invalid_symbol">Invalid symbol</string>
     <string name="string_symbol_found" translatable="false">Success! added new Symbol</string>
     <string name="string_stock_saved" translatable="false">This stock is already saved!</string>
     <string name="string_set_background_resource" translatable="false">setBackgroundResource</string>

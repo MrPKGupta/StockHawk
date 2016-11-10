@@ -82,7 +82,7 @@ public class StockDetailActivity extends AppCompatActivity implements
         gridPaint.setAntiAlias(true);
         gridPaint.setStrokeWidth(Tools.fromDpToPx(1f));
         lineChartView.setBorderSpacing(1)
-                .setAxisBorderValues(minRange-100, maxRange+100, 50)
+                .setAxisBorderValues(minRange, maxRange+800, 50)
                 .setXLabels(AxisController.LabelPosition.OUTSIDE)
                 .setYLabels(AxisController.LabelPosition.OUTSIDE)
                 .setLabelsColor(getResources().getColor(R.color.line_labels))
@@ -102,9 +102,9 @@ public class StockDetailActivity extends AppCompatActivity implements
         minRange = Math.round(Collections.min(mArrayList));
         if(minRange>100)
             minRange = minRange-100;
-//        if(maxRange-minRange>10)
-//            step = Math.round((maxRange*1.0f - minRange*1.0f)/10);
-//        if(step==0)
-//            step=10;
+        if(maxRange-minRange>10)
+            step = Math.round((maxRange*1.0f - minRange*1.0f)/10);
+        if(step==0)
+            step=10;
     }
 }

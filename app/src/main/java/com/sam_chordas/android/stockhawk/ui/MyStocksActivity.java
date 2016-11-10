@@ -39,6 +39,8 @@ import com.sam_chordas.android.stockhawk.service.StockIntentService;
 import com.sam_chordas.android.stockhawk.service.StockTaskService;
 import com.sam_chordas.android.stockhawk.touch_helper.SimpleItemTouchHelperCallback;
 
+import java.util.regex.Pattern;
+
 public class MyStocksActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
@@ -119,12 +121,18 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                 public void onInput(MaterialDialog dialog, CharSequence input) {
                                     // On FAB click, receive user input. Make sure the stock doesn't already exist
                                     // in the DB and proceed accordingly
+                                    final Pattern pattern = Pattern.compile("^[a-zA-Z]+$");
+                                    if(!pattern.matcher(input).matches()) {
+                                        Toast.makeText(MyStocksActivity.this, getResources().getString(R.string.invalid_symbol),
+                                                Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
                                     Cursor c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
                                             new String[]{QuoteColumns.SYMBOL}, QuoteColumns.SYMBOL + "= ?",
-                                            new String[]{input.toString()}, null);
+                                            new String[]{input.toString().toUpperCase()}, null);
                                     if (c.getCount() != 0) {
                                         Toast toast =
-                                                Toast.makeText(MyStocksActivity.this, getResources().getString(R.string.string_tag),
+                                                Toast.makeText(MyStocksActivity.this, getResources().getString(R.string.string_stock_saved),
                                                         Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                                         toast.show();
@@ -132,7 +140,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                     } else {
                                         // Add the stock to DB
                                         mServiceIntent.putExtra(getResources().getString(R.string.string_tag), getResources().getString(R.string.string_add));
-                                        mServiceIntent.putExtra(getResources().getString(R.string.string_symbol), input.toString());
+                                        mServiceIntent.putExtra(getResources().getString(R.string.string_symbol), input.toString().toUpperCase());
                                         startService(mServiceIntent);
                                     }
                                 }
